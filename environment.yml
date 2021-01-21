@@ -1,0 +1,12 @@
+name: gigadetector
+dependencies:
+ - python=3.7
+ - anaconda::tensorflow-gpu=1
+ - opencv=4.1
+ - conda-forge::matplotlib
+ - pillow
+ - scikit-learn
+ - scikit-image
+ - lxml
+ - cython
+ - imgaug
