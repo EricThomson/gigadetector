@@ -1,22 +1,19 @@
 # Gigadetector
-Object detection pipeline when your images are too big to fit into GPU RAM.
+Object detection pipeline when your images are too big to fit into your GPU.
 
 <describe basic process here>
 
 ## Installation
 ### Clone repo / create  virtual environment
- Go to the directory that you want to contain the `gigadetector` folder:    
+For now (no installer): go to the directory that you want to contain the `gigadetector` repo:    
 
-     git clone <give html here>
+     git clone https://github.com/EricThomson/gigadetector.git
      cd gigadetector
      conda env create -f environment.yml
      conda activate gigadetector
+     pip uninstall opencv-python
 
-The above command will create the gigadetector virtual environment and activate it.  Note that creating this virtual environment can take several minutes as it installs large packages such as `tensorflow-gpu` and `opencv`.
-
-Note for reasons I don't understand sometimes the abovew will install two versions of opencv. If it installs opencv and opencv-python, uninstall the latter with:
-
-    pip uninstall opencv-python
+The above command will create the gigadetector virtual environment and activate it (and uninstall a version of opencv we do not need).  Note that creating this virtual environment can take several minutes.
 
 ### Test your installation of tensorflow
 From the command line, go into python, import tensorflow, and see if you have a gpu available:
