@@ -2,4 +2,4 @@
 *cache*
 *.exe
 /data
-/models
+*.pb

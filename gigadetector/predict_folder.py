@@ -15,8 +15,8 @@ from datetime import datetime
 import joblib
 
 from object_detection.utils import label_map_util
-base_path = r'/home/naumann/gigadetector/'
-os.chdir(base_path + r'/gigadetector/')
+base_path = os.path.expanduser("~") + r"/gigadetector/"
+sys.path.append(base_path + r'/gigadetector/')
 import utils
 
 import logging

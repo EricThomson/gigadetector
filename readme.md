@@ -57,12 +57,23 @@ Test your install:
 
 If you see a bunch of lines indicating tests were Run (maybe with one or two skipped), you are good to go.
 
-### Test the workflow on a sample small
-Test the model on a single test image from the command line.
+### Download the model and test images
+Run the script to download the frozen model (`fish_frcnn_graph.pb`) into `models/` and to create the local `data/` folder and download three large images into this folder. In your gigadetector environment:
+
+    cd ~/gigadetector
+    python download_demo.py
+
+You should see some indications that you are downloading images and a model from google drive.
+
+### Test on small image
+Test the model on a small test image that contains two fish.
+
+    cd ~/gigadetector/gigadetector
+    python
 
     conda activate gigadetector
     cd ~/gigadetector/gigadetector/
-    python predict_one.py --model /home/naumann/gigadetector/models/fish_frcnn_graph.pb --labels /home/naumann/gigadetector/models/fish_classes.pbtxt --image /home/naumann/gigadetector/test_data/fish.png --num-classes 1
+    python predict_one.py
 
 You will see some warnings, but you should see an image pop up with two fish outlined with the confidence measure (in this case it will be rounded up to 1.00 for both fish).
 
@@ -80,8 +91,14 @@ Then predict_folder.py (wth bb_analysis_folder.py)
 Then gigaviewer.py
 
 ## To do
+- write up code to download stuff and install things.
+- refactor/improve documentation (minimal for now)
+    - better filenames
+    - change to relative paths or dummy paths in readme
 - push online to a private repo
-- let mark and colin know.
+- test on my linux machine
+- let folks know
+
 
 ### Acknowledgments
 Code developed as part of the multi-camera array microscope project in the Computational Optics Lab (http://horstmeyer.pratt.duke.edu/) and the Naumann Lab (https://www.naumannlab.org/) at Duke University.

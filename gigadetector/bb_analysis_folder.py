@@ -20,8 +20,9 @@ import numpy as np
 import joblib
 import logging
 logging.basicConfig(level = logging.DEBUG)
-base_path = r'/home/naumann/gigadetector/'
-os.chdir(base_path + r'/gigadetector/')
+
+base_path = os.path.expanduser("~") + r"/gigadetector/"
+sys.path.append(base_path + r'/gigadetector/')
 import utils
 
 #%% set parameters

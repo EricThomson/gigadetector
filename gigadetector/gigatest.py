@@ -267,9 +267,9 @@ logging.debug(f"bounding boxes: {boxes_all}")
 logging.debug(f"scores: {scores_all}")
 
 
-#%%  datetime.now().strftime("%Y%m%d_%H%M%S")
+#%% 
 if save_data:
-    bb_filename = r'giga1_od_results.pkl'
+    bb_filename = r'giga1_od_results.pkl'  #previously used  datetime.now().strftime("%Y%m%d_%H%M%S")
     bb_filepath = save_path + bb_filename
     logging.info(f"Saving data to {bb_filepath}")
     data_to_save = {'bboxes': boxes_all, 'scores': scores_all, 'rois': rois_all, 'fname': image_path}
