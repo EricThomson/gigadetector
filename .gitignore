@@ -1,3 +1,5 @@
 *~*
 *cache*
 *.exe
+/data
+/models
