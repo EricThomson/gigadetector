@@ -4,6 +4,9 @@
 Created on Thu Aug 22 09:46:24 2019
 
 @author: eric
+
+Part of gigadetector repo:
+https://github.com/EricThomson/gigadetector
 """
 import os
 from glob import glob

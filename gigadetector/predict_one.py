@@ -1,6 +1,9 @@
 """
 Test model on a single small image with two fish.
 Code partly adapted from od api and pyimagesearch.
+
+Part of gigadetector repo:
+https://github.com/EricThomson/gigadetector
 """
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' #set to 3 to print nothing

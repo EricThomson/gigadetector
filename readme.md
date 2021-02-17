@@ -83,15 +83,17 @@ To do: add description and docs here for this (will cycle through image).
 
 You will see the algorithm run through an entire single gigaimage with a sliding window (it may run relatively quickly)  [*describe more what this does and what/where it saves*].
 
+Add something to draw and show *all* the bboxes.
+
 Describe and mention bb_draw.py anw what/.where it saves.  
 
 
 ## Run in a folder of images
+Here';s where we get to something that is more like what you will actually do.
 Then predict_folder.py (wth bb_analysis_folder.py)
 Then gigaviewer.py
 
 ## To do
-- write up code to download stuff and install things.
 - refactor/improve documentation (minimal for now)
     - better filenames
     - change to relative paths or dummy paths in readme

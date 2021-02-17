@@ -4,6 +4,9 @@ Extends predict_loop_script.py to multiple images in a folder, saving bboxes for
 For each image in folder saves bb_dat (includes boxes, confidence, image path, etc)
 At end also saves <datetime>_filepaths.pkl that saves the filepaths to all the bb_dat pkl files.
 The latter is used for analysis.
+
+Part of gigadetector repo:
+https://github.com/EricThomson/gigadetector
 """
 import os
 import sys

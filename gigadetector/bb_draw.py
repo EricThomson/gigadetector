@@ -5,6 +5,9 @@ Draw all saved bboxes on image
 
 Note by 'std' I mean: xs, ys, xe, ye
      by 'img' I mean ys, ye, xs, xe
+     
+Part of gigadetector repo:
+https://github.com/EricThomson/gigadetector
 """
 import os
 import sys

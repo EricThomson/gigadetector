@@ -13,6 +13,9 @@ Initial docs I had here:
     If your feature is X, you want window size (at least) 2X and step size X/2.
     So for fish which are ~500 pixels in size:
         window size ~1200 (just to be safe) and step size ~225 (again to be safe)
+        
+Part of gigadetector repo:
+https://github.com/EricThomson/gigadetector
 """
 import os
 import sys

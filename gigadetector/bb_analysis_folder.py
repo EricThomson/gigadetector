@@ -11,6 +11,9 @@ TO DO:
 
 Process bounding boxes on multiple images analyzed using predict_folder (which did 
 the sliding window analysis). This is basically bb_draw wrapped around processed data.
+
+Part of gigadetector repo:
+https://github.com/EricThomson/gigadetector
 """
 import os
 import sys
