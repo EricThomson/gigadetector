@@ -11,10 +11,8 @@ import cv2
 
 #%% tensorflow fix for rtx/gtx
 from tensorflow.compat.v1 import ConfigProto
-#from tensorflow.compat.v1 import InteractiveSession
 config = ConfigProto()
 config.gpu_options.allow_growth = True
-#config.gpu_options.per_process_gpu_memory_fraction = 0.9
 session = tf.Session(config=config) #InteractiveSession(config=config)
 
 #%% set paths

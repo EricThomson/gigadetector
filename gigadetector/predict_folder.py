@@ -11,7 +11,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' #set to 3 to print nothing
 import tensorflow as tf
 import numpy as np
 import cv2
-from datetime import datetime
 import joblib
 
 from object_detection.utils import label_map_util

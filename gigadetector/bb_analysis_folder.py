@@ -15,7 +15,6 @@ the sliding window analysis). This is basically bb_draw wrapped around processed
 import os
 import sys
 import cv2
-from datetime import datetime
 import numpy as np
 import joblib
 import logging

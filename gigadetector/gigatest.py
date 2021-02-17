@@ -14,9 +14,8 @@ Initial docs I had here:
     So for fish which are ~500 pixels in size:
         window size ~1200 (just to be safe) and step size ~225 (again to be safe)
 """
-import sys
 import os
-from datetime import datetime
+import sys
 import joblib
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' #set to 3 to print nothing
@@ -28,8 +27,8 @@ import logging
 logging.basicConfig(level = logging.WARNING)
 
 from object_detection.utils import label_map_util
-base_path = r'/home/naumann/gigadetector/'
-os.chdir(base_path + r'/gigadetector/')
+base_path = os.path.expanduser("~") + r"/gigadetector/"
+sys.path.append(base_path + r'/gigadetector/')
 import utils
 
 
@@ -52,9 +51,7 @@ else:
 win_size =  1024
 step_size = win_size//2
 edge_min = 29  #at edges, if moving window width or height is this size or less, discard
-#verbosity:
-# 0: show nothing just save data
-# 1: show progress on image
+#verbosity: 0: show nothing just save data, 1: show progress on image
 verbosity = 1
 if verbosity == 0:
     logging.info("\n***Note verbosity is 0, you will only see text feedback.***\n")

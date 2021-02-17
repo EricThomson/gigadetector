@@ -68,23 +68,23 @@ You should see some indications that you are downloading images and a model from
 ### Test on small image
 Test the model on a small test image that contains two fish.
 
-    cd ~/gigadetector/gigadetector
-    python
-
     conda activate gigadetector
     cd ~/gigadetector/gigadetector/
     python predict_one.py
 
 You will see some warnings, but you should see an image pop up with two fish outlined with the confidence measure (in this case it will be rounded up to 1.00 for both fish).
 
+Note in what follows the first two lines from above (activating the environment and cd'ing will be assumed).
+
 ## Test on a single gigaimage
 To do: add description and docs here for this (will cycle through image).
 
-    cd ~/gigadetector
-    conda activate gigadetector/gigadetector
     python gigatest.py
 
-Then predict_loop_script.py (with bb_draw.py)
+You will see the algorithm run through an entire single gigaimage with a sliding window (it may run relatively quickly)  [*describe more what this does and what/where it saves*].
+
+Describe and mention bb_draw.py anw what/.where it saves.  
+
 
 ## Run in a folder of images
 Then predict_folder.py (wth bb_analysis_folder.py)
