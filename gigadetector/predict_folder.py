@@ -38,7 +38,7 @@ from tensorflow.compat.v1 import ConfigProto
 config = ConfigProto()
 config.gpu_options.allow_growth = True
 #config.gpu_options.per_process_gpu_memory_fraction = 0.8
-session = tf.Session(config=config) #InteractiveSession(config=config)
+session = tf.compat.v1.Session(config=config) #InteractiveSession(config=config)
 
 
 
@@ -72,10 +72,10 @@ model = tf.Graph()
 # create a context manager that makes this model the default one for execution
 with model.as_default():
     # initialize the graph definition
-    graphDef = tf.GraphDef()
+    graphDef = tf.compat.v1.GraphDef()
 
     # load the graph from disk
-    with tf.gfile.GFile(model_path, "rb") as f:
+    with tf.io.gfile.GFile(model_path, "rb") as f:
         serializedGraph = f.read()
         graphDef.ParseFromString(serializedGraph)
         tf.import_graph_def(graphDef, name="")
@@ -91,7 +91,7 @@ categoryIdx = label_map_util.create_category_index(categories)
 
 #%% create a session to perform inference
 with model.as_default():
-    with tf.Session(graph=model) as sess:
+    with tf.compat.v1.Session(graph=model) as sess:
 
         #% run sliding window on images in image_paths
         for ind, image_path in enumerate(image_paths):

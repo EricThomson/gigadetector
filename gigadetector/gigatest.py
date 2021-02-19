@@ -4,16 +4,16 @@ To do:
     Instructions here
     Most importantly instructions in readme for running from command line.
     Mention parameters here.
-    
+
     Have it automatically close them, do bb_draw, and show final bb image, and
     save final bb image.
-    
+
 Initial docs I had here:
     Sliding window to predict fish position on large image
     If your feature is X, you want window size (at least) 2X and step size X/2.
     So for fish which are ~500 pixels in size:
         window size ~1200 (just to be safe) and step size ~225 (again to be safe)
-        
+
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
 """
@@ -44,12 +44,13 @@ image_path = image_dir + image_name
 model_dir = base_path + r'models/'
 model_path = model_dir + r'fish_frcnn_graph.pb'
 labels_path = model_dir + r'fish_classes.pbtxt'
+print(f"\nBeginning analysis of {image_path}\nClick Esc over movie to halt progress.")
 
 if os.path.isdir(save_path):
     pass
 else:
     os.mkdir(save_path)
-    
+
 #%% set basic runtime params
 win_size =  1024
 step_size = win_size//2
@@ -71,7 +72,7 @@ from tensorflow.compat.v1 import ConfigProto
 config = ConfigProto()
 config.gpu_options.allow_growth = True
 #config.gpu_options.per_process_gpu_memory_fraction = 0.9
-session = tf.Session(config=config) #InteractiveSession(config=config)
+session = tf.compat.v1.Session(config=config) #InteractiveSession(config=config)
 
 
 
@@ -80,9 +81,9 @@ model = tf.Graph()
 # create a context manager that makes this model the default one for execution
 with model.as_default():
     # initialize the graph definition
-    graphDef = tf.GraphDef()
+    graphDef = tf.compat.v1.GraphDef()
     # load the graph from disk
-    with tf.gfile.GFile(model_path, "rb") as f:
+    with tf.io.gfile.GFile(model_path, "rb") as f:
         serializedGraph = f.read()
         graphDef.ParseFromString(serializedGraph)
         tf.import_graph_def(graphDef, name="")
@@ -123,7 +124,7 @@ final_plot = False
 #%% Cycle through applying model to each bit
 if verbosity:
     ("Running analysis. Press escape to quit.")
-    
+
 clone = image.copy()
 line_width = clone.shape[1]//300
 
@@ -134,7 +135,7 @@ if verbosity:
     cv2.imshow("image", clone)
     cv2.namedWindow('col_subimage', cv2.WINDOW_NORMAL)
 with model.as_default():
-    with tf.Session(graph=model) as sess:
+    with tf.compat.v1.Session(graph=model) as sess:
         for (x, y, sub_image) in utils.sliding_window(image, stepSize = step_size, windowSize=(winW, winH)):
             # if the window does not meet our desired window size, ignore it
             #if window.shape[0] != winH or window.shape[1] != winW:
@@ -258,7 +259,7 @@ with model.as_default():
                 cv2.imshow("col_subimage", display_image)
                 #time.sleep(0.1)
 
-print("Analysis has finished: click escape to save.")
+print("Analysis has finished: click escape to close window.")
 k = cv2.waitKey()
 if k == 27:
     cv2.destroyAllWindows()
@@ -267,7 +268,7 @@ logging.debug(f"bounding boxes: {boxes_all}")
 logging.debug(f"scores: {scores_all}")
 
 
-#%% 
+#%%
 if save_data:
     bb_filename = r'giga1_od_results.pkl'  #previously used  datetime.now().strftime("%Y%m%d_%H%M%S")
     bb_filepath = save_path + bb_filename

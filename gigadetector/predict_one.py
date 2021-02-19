@@ -9,6 +9,7 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' #set to 3 to print nothing
 from object_detection.utils import label_map_util
 import tensorflow as tf
+tf.compat.v1.disable_eager_execution()
 import numpy as np
 import cv2
 
@@ -16,7 +17,7 @@ import cv2
 from tensorflow.compat.v1 import ConfigProto
 config = ConfigProto()
 config.gpu_options.allow_growth = True
-session = tf.Session(config=config) #InteractiveSession(config=config)
+session = tf.compat.v1.Session(config=config) #InteractiveSession(config=config)
 
 #%% set paths
 base_path = os.path.expanduser("~") + r"/gigadetector/"
@@ -28,15 +29,22 @@ labels_path = model_dir + r'fish_classes.pbtxt'
 label_color =  (0, 255, 255)
 num_classes = 1
 min_confidence = 0.9
-print(f"\nSetting up analysis of {image_path}")
 
-#%% initialize and run the model
+if not os.path.isfile(model_path):
+	raise IOError(f"File not found: {model_path}. Run download_demo()")
+elif not os.path.isfile(image_path):
+	raise IOError(f"File not found: {image_path}. Run download_demo")
+
+
+print(f"\nSetting up analysis of {image_path}.\nUsing model{model_path}.\n")
+
+#%% initialize and load the model
 model = tf.Graph()
 with model.as_default():
 	# initialize the graph definition
-	graphDef = tf.GraphDef()
-	# load the graph from disk
-	with tf.gfile.GFile(model_path, "rb") as f:
+	graphDef = tf.compat.v1.GraphDef()
+	# load the model from disk
+	with tf.io.gfile.GFile(model_path, "rb") as f:
 		serializedGraph = f.read()
 		graphDef.ParseFromString(serializedGraph)
 		tf.import_graph_def(graphDef, name="")
@@ -49,15 +57,13 @@ categoryIdx = label_map_util.create_category_index(categories)
 
 # create a session to perform inference
 with model.as_default():
-	with tf.Session(graph=model) as sess:
+	with tf.compat.v1.Session(graph=model) as sess:
 		# grab a reference to the input image tensor and the boxes tensor
-		imageTensor = model.get_tensor_by_name("image_tensor:0")
-		boxesTensor = model.get_tensor_by_name("detection_boxes:0")
-
-		# for each bounding box we would like to know the score (i.e., probability) and class label
-		scoresTensor = model.get_tensor_by_name("detection_scores:0")
-		classesTensor = model.get_tensor_by_name("detection_classes:0")
-		numDetections = model.get_tensor_by_name("num_detections:0")
+		imageTensor = "image_tensor:0"
+		boxesTensor = "detection_boxes:0"
+		scoresTensor = "detection_scores:0"
+		classesTensor ="detection_classes:0"
+		numDetections = "num_detections:0"
 
 		# load the image from disk
 		image = cv2.imread(image_path)
@@ -69,7 +75,7 @@ with model.as_default():
 		image = cv2.cvtColor(image.copy(), cv2.COLOR_BGR2RGB)
 		image = np.expand_dims(image, axis=0)
 
-		# perform inference and compute the bounding boxes,  probabilities, and class labels
+		# perform inference and assign bounding boxes,  scores, labels
 		(boxes, scores, labels, N) = sess.run([boxesTensor, scoresTensor, classesTensor, numDetections],
 			                                   feed_dict={imageTensor: image})
 
@@ -98,10 +104,10 @@ with model.as_default():
 			label = "{}: {:.2f}".format(label["name"], score)
 			cv2.rectangle(output, (startX, startY), (endX, endY), label_color, 4)
 			y = startY - 10 if startY - 10 > 10 else startY + 10
-			cv2.putText(output, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX, 
+			cv2.putText(output, label, (startX, y), cv2.FONT_HERSHEY_SIMPLEX,
                         1.2, label_color, thickness =  3)
 
-            
+
 #%% show the fully formatted output image
 print("Final analyzed image should be showing. Press ESC to close.")
 cv2.namedWindow('Test Output', cv2.WINDOW_NORMAL)

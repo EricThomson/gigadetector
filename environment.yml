@@ -4,9 +4,11 @@ dependencies:
  - anaconda::tensorflow-gpu=1
  - conda-forge::opencv=4.1
  - conda-forge::matplotlib
+ - requests
  - pillow
  - scikit-learn
  - scikit-image
+ - gdown
  - lxml
  - cython
  - imgaug

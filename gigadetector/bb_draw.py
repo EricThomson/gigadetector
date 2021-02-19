@@ -5,7 +5,7 @@ Draw all saved bboxes on image
 
 Note by 'std' I mean: xs, ys, xe, ye
      by 'img' I mean ys, ye, xs, xe
-     
+
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
 """
@@ -17,7 +17,7 @@ import joblib
 import logging
 logging.basicConfig(level = logging.DEBUG)
 
-base_path = r'/home/naumann/gigadetector/'
+base_path = os.path.expanduser("~") + r"/gigadetector/"
 sys.path.append(base_path + r'/gigadetector/')
 import utils
 
@@ -40,7 +40,7 @@ if os.path.isdir(save_path):
     pass
 else:
     os.mkdir(save_path)
-    
+
 #%%
 with open(bb_filepath, 'rb') as fp:
    saved_data = joblib.load(fp)

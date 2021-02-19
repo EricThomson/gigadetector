@@ -1,17 +1,18 @@
 # Gigadetector
 Object detection pipeline when your images are too big to fit into your GPU.
 
-<describe basic process here>
+Run and tested on Linux.
 
 ## Installation
 ### Clone repo / create  virtual environment
-For now (no installer): go to the directory that you want to contain the `gigadetector` repo:    
+For now (no installer): go to your home directory:    
 
-     git clone https://github.com/EricThomson/gigadetector.git
-     cd gigadetector
-     conda env create -f environment.yml
-     conda activate gigadetector
-     pip uninstall opencv-python
+    cd ~
+    git clone https://github.com/EricThomson/gigadetector.git
+    cd gigadetector
+    conda env create -f environment.yml
+    conda activate gigadetector
+    pip uninstall opencv-python
 
 The above command will create the gigadetector virtual environment and activate it (and uninstall a version of opencv we do not need).  Note that creating this virtual environment can take several minutes.
 
@@ -25,7 +26,7 @@ From the command line, go into python, import tensorflow, and see if you have a 
 
 If you have a working version of `tensorflow-gpu`, and a working driver and GPU installed, You should get a bunch of stuff that looks like gibberish, with the final line `True`.
 
-If you get `False` try entering `nvidia-smi` at the OS command line: if you do not get a reasonable response from nvidia, you probably need to troubleshoot the GPU-Driver-Cuda triad -- an ML rite of passage sent from the depths of hell.
+If you get `False` try entering `nvidia-smi` at the OS command line: if you do *not* get a reasonable response, you probably need to troubleshoot the GPU-Driver-Cuda triad -- an ML rite of passage sent from the depths of hell. Good luck.
 
 ### Install the tensorflow object detection api
 This API contains many useful utilities used by gigadetector that are provided by Google. For more on the API see:
@@ -43,19 +44,17 @@ Now install the object detection api:
     cp object_detection/packages/tf1/setup.py .
     python -m pip install --use-feature=2020-resolver .
 
-Update python path:
+Update python path so you can access the utilities in your python scripts:
 
     cd ~/models/research/
     export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 
-Now you should have access to all the features of the object detection api! Test it with the following:
-
-Test your install:
+Test it with the following:
 
       cd ~/models/research
       python object_detection/builders/model_builder_tf1_test.py
 
-If you see a bunch of lines indicating tests were Run (maybe with one or two skipped), you are good to go.
+If you see a bunch of lines indicating tests were Run (maybe with one or two skipped), you are good to go!
 
 ### Download the model and test images
 Run the script to download the frozen model (`fish_frcnn_graph.pb`) into `models/` and to create the local `data/` folder and download three large images into this folder. In your gigadetector environment:
@@ -63,7 +62,7 @@ Run the script to download the frozen model (`fish_frcnn_graph.pb`) into `models
     cd ~/gigadetector
     python download_demo.py
 
-You should see some indications that you are downloading images and a model from google drive.
+You should see some indications that you are downloading images and the frozen fish faster rcnn network (`fish_frcnn.pb`).
 
 ### Test on small image
 Test the model on a small test image that contains two fish.
