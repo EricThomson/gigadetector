@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Draw all saved bboxes on image
+Example pipleine for extracting unique bboxes from the set of all bboxes pulled
+in gigatest.py. Saves final estimate in  gigadetector/data/processed/processed_images/.
 
-Note by 'std' I mean: xs, ys, xe, ye
-     by 'img' I mean ys, ye, xs, xe
+Example of saving actual data is in bb_extract_folder.py.
+
+Note by 'std' bb coords: xs, ys, xe, ye
+     by 'img' bb coords: ys, ye, xs, xe
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
@@ -32,7 +35,7 @@ save = 1
 verbose = 0  #to draw intermediate images -- used when stepping through and debugging
 #load data
 bb_filename = r'giga1_od_results.pkl'
-analysis_path = base_path + r'data/individual_processed/'
+analysis_path = base_path + r'data/processed/'
 bb_filepath = analysis_path + bb_filename
 save_path = analysis_path + 'processed_images/'
 

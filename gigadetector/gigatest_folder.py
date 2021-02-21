@@ -1,9 +1,7 @@
 """
-Extends predict_loop_script.py to multiple images in a folder, saving bboxes for each image.
-
-For each image in folder saves bb_dat (includes boxes, confidence, image path, etc)
-At end also saves <datetime>_filepaths.pkl that saves the filepaths to all the bb_dat pkl files.
-The latter is used for analysis.
+Process multiple large images that are in a folder. Saves results (includes boxes, confidence, image paths) to
+gigadetector/data/processed/gigafolder_od_results.pkl
+You can then process these results using bb_extract_folder.py.
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
@@ -27,8 +25,8 @@ logging.basicConfig(level = logging.INFO)
 win_size = 1024
 step_size = win_size//2
 edge_min = 29  #when subimage would be smaller than this in either dimension, move on
-save_data = 1 #save_data: toggle to 0 for test runs
-verbose = 0  #0 just text, 1 show sliding window
+save_data = 1 #save_data: toggle to 0 for test runs just to make sure you get no errors
+verbose = 0  #0 just text, 1 to show sliding window
 if verbose == 0:
     logging.info("\n***Note verbose is 0, you will only see text feedback.***\n")
 
@@ -45,7 +43,7 @@ session = tf.compat.v1.Session(config=config) #InteractiveSession(config=config)
 #%% set paths
 
 image_dir = base_path + r'data/'
-save_path = image_dir + r'individual_processed/'
+save_path = image_dir + r'processed/'
 image_paths = utils.extract_paths(image_dir, extension = 'png')  #bmp
 num_images = len(image_paths)
 print(f"Will run Faster-RCNN on the {num_images} images in {image_dir}")

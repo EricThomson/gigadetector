@@ -1,18 +1,5 @@
 """
-To do:
-    Docs here
-    Instructions here
-    Most importantly instructions in readme for running from command line.
-    Mention parameters here.
-
-    Have it automatically close them, do bb_draw, and show final bb image, and
-    save final bb image.
-
-Initial docs I had here:
-    Sliding window to predict fish position on large image
-    If your feature is X, you want window size (at least) 2X and step size X/2.
-    So for fish which are ~500 pixels in size:
-        window size ~1200 (just to be safe) and step size ~225 (again to be safe)
+Test frozen model on single large image using sliding window. Saves results (bboxes, scores, name of filepath) in gigadetector/data/processed that can later be processed using bb_extract.py. 
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
@@ -34,10 +21,9 @@ base_path = os.path.expanduser("~") + r"/gigadetector/"
 sys.path.append(base_path + r'/gigadetector/')
 import utils
 
-
 #%% set paths
 image_dir = base_path + r'data/'
-save_path = image_dir + r'individual_processed/'
+save_path = image_dir + r'processed/'
 image_name = r'giga1.png'
 image_path = image_dir + image_name
 
