@@ -37,7 +37,7 @@ debug = 0  #display images (not really useful for full folder)
 save = 2  #0 do not, 1: save bboxes etc, 2: also save images with bboxes drawn on them
 
 #%% load data
-bb_filename = r'gigafolder_bb_results.pkl'
+bb_filename = r'gigafolder_od_results.pkl'
 analysis_path = base_path + r'data/processed/'
 bb_filepath = analysis_path + bb_filename
 save_path = analysis_path

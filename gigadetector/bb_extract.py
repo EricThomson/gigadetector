@@ -56,6 +56,7 @@ num_rois = len(rois)
 image_name = os.path.splitext(os.path.basename(image_path))[0]
 
 print(f"Rendering bounding boxes for data from {image_path}")
+print("When done inspecting image, click ESC to close window and save data.")
 
 #%% Extract bboxes (note they are in std format: xs, ys, xe, ye)
 bboxes_initial, scores_initial = utils.bb_filter_initial(bboxes, scores)
@@ -148,7 +149,7 @@ utils.draw_bboxes_scores(image,
                          text_thickness = 3,
                          shape = (950, 950),
                          xy = (1300, 50))
-print("When done inspecting image, click escape to close window and save data.")
+
 
 #%%  Save the image with bounding boxes if you want
 # should also save bboxes, confidence, etc. (see ): see bb_analysis_folder.py for this
