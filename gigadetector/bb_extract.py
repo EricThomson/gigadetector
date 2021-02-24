@@ -34,18 +34,18 @@ overlap_threshold = 85 #for overlap trimming step, this is the threshold for equ
 save = 1
 verbose = 0  #to draw intermediate images -- used when stepping through and debugging
 #load data
-bb_filename = r'giga1_od_results.pkl'
+od_filename = r'giga1_od_results.pkl'
 analysis_path = base_path + r'data/processed/'
-bb_filepath = analysis_path + bb_filename
-save_path = analysis_path + 'processed_images/'
+od_filepath = analysis_path + od_filename
+processed_image_path = analysis_path + 'processed_images/'
 
-if os.path.isdir(save_path):
+if os.path.isdir(processed_image_path):
     pass
 else:
-    os.mkdir(save_path)
+    os.mkdir(processed_image_path)
 
 #%%
-with open(bb_filepath, 'rb') as fp:
+with open(od_filepath, 'rb') as fp:
    saved_data = joblib.load(fp)
 
 image_path = saved_data['fname']
@@ -57,6 +57,26 @@ image_name = os.path.splitext(os.path.basename(image_path))[0]
 
 print(f"Rendering bounding boxes for data from {image_path}")
 print("When done inspecting image, click ESC to close window and save data.")
+
+
+"""
+#%% set paths
+image_dir = base_path + r'data/'
+save_dir = image_dir + r'processed/'
+image_path = image_dir + r'giga1.png'
+model_dir = base_path + r'models/'
+
+model_path = model_dir + r'fish_frcnn_graph.pb'
+labels_path = model_dir + r'fish_classes.pbtxt'
+print(f"\nBeginning analysis of {image_path}\nClick Esc over movie to halt progress.")
+
+bb_filepath = save_dir + r'giga1_od_results.pkl' #previously used  datetime.now().strftime("%Y%m%d_%H%M%S"
+    
+if os.path.isdir(save_dir):
+    pass
+else:
+    os.mkdir(save_dir)
+"""
 
 #%% Extract bboxes (note they are in std format: xs, ys, xe, ye)
 bboxes_initial, scores_initial = utils.bb_filter_initial(bboxes, scores)
@@ -154,7 +174,7 @@ utils.draw_bboxes_scores(image,
 #%%  Save the image with bounding boxes if you want
 # should also save bboxes, confidence, etc. (see ): see bb_analysis_folder.py for this
 if save:
-    save_fname = save_path + 'giga1_bboxes.png'
+    save_fname = processed_image_path + 'giga1_bboxes.png'
     print(f"gigadetector saving {save_fname}")
     # saves without compression
     a = cv2.imwrite(save_fname, image, [cv2.IMWRITE_PNG_COMPRESSION, 2])

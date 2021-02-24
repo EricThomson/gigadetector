@@ -36,7 +36,7 @@ elif not os.path.isfile(image_path):
 	raise IOError(f"File not found: {image_path}. Run download_demo")
 
 
-print(f"\nSetting up analysis of {image_path}.\nUsing model{model_path}.\n")
+print(f"\nSetting up analysis of {image_path}\nUsing model{model_path}\n")
 
 #%% initialize and load the model
 model = tf.Graph()
@@ -109,7 +109,7 @@ with model.as_default():
 
 
 #%% show the fully formatted output image
-print("Final analyzed image should be showing. Press ESC to close.")
+print("Final analyzed image should be showing. Press ESC in image window to close")
 cv2.namedWindow('Test Output', cv2.WINDOW_NORMAL)
 cv2.imshow("Test Output", output)
 cv2.resizeWindow("Test Output", 800, 800)

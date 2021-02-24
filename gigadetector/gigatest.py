@@ -23,19 +23,20 @@ import utils
 
 #%% set paths
 image_dir = base_path + r'data/'
-save_path = image_dir + r'processed/'
-image_name = r'giga1.png'
-image_path = image_dir + image_name
-
+save_dir = image_dir + r'processed/'
+image_path = image_dir + r'giga1.png'
 model_dir = base_path + r'models/'
+
 model_path = model_dir + r'fish_frcnn_graph.pb'
 labels_path = model_dir + r'fish_classes.pbtxt'
 print(f"\nBeginning analysis of {image_path}\nClick Esc over movie to halt progress.")
 
-if os.path.isdir(save_path):
+od_filepath = save_dir + r'giga1_od_results.pkl' #previously used  datetime.now().strftime("%Y%m%d_%H%M%S"
+    
+if os.path.isdir(save_dir):
     pass
 else:
-    os.mkdir(save_path)
+    os.mkdir(save_dir)
 
 #%% set basic runtime params
 win_size =  1024
@@ -117,9 +118,10 @@ line_width = clone.shape[1]//300
 if verbosity:
     cv2.namedWindow('image', cv2.WINDOW_NORMAL)
     cv2.resizeWindow('image', 600, 800)  #width, height
-    cv2.moveWindow('image', 500, 50)  #x y pos on screen
+    cv2.moveWindow('image', 500, 70)  #x y pos on screen
     cv2.imshow("image", clone)
     cv2.namedWindow('col_subimage', cv2.WINDOW_NORMAL)
+    cv2.moveWindow('col_subimage', 75, 70)  #x y pos on screen
 with model.as_default():
     with tf.compat.v1.Session(graph=model) as sess:
         for (x, y, sub_image) in utils.sliding_window(image, stepSize = step_size, windowSize=(winW, winH)):
@@ -256,13 +258,11 @@ logging.debug(f"scores: {scores_all}")
 
 #%%
 if save_data:
-    bb_filename = r'giga1_od_results.pkl'  #previously used  datetime.now().strftime("%Y%m%d_%H%M%S")
-    bb_filepath = save_path + bb_filename
-    logging.info(f"Saving data to {bb_filepath}")
+    logging.info(f"Saving data to {od_filepath}")
     data_to_save = {'bboxes': boxes_all, 'scores': scores_all, 'rois': rois_all, 'fname': image_path}
-    with open(bb_filepath, 'wb') as fp:
+    with open(od_filepath, 'wb') as fp:
         joblib.dump(data_to_save, fp)
-    print(f"gigadetector test finished successfully!\ndata saved to {bb_filepath}")
+    print(f"gigadetector test finished successfully!\ndata saved to {od_filepath}")
 
 #%% Next, to process this go to bb_draw.py
 

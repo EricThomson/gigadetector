@@ -1,16 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-TO DO:
-    run and document gigaviewer (maybe get the gigaviewer from windows machine it is
-                                 a bit better written/documented)
-    Document all this stuff at the readme
-    Get the big stuff hosted check that it works on another machine.
-    Let mark/colin know
-
-
-Process bounding boxes on multiple images analyzed using predict_folder (which did
-the sliding window analysis). This is basically bb_draw wrapped around processed data.
+Process bounding boxes on multiple images analyzed using gigatest_folder.
+Saves results in data/gigafolder
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
@@ -35,47 +27,43 @@ overlap_threshold = 90 #overlap filter (for those nms doesn't get...overlap to t
 area_threshold = 12_000
 debug = 0  #display images (not really useful for full folder)
 save = 2  #0 do not, 1: save bboxes etc, 2: also save images with bboxes drawn on them
-
-#%% load data
-bb_filename = r'gigafolder_od_results.pkl'
-analysis_path = base_path + r'data/processed/'
-bb_filepath = analysis_path + bb_filename
-save_path = analysis_path
-
 bb_color = (255, 255, 255)
 
-#following contains 'data_paths' (pkl of bboxes, scores, etc for each image)
-# as well as 'image-paths' (paths to actual images)
-saved_paths = joblib.load(bb_filepath)
-data_paths = saved_paths['data_paths']
-image_paths = saved_paths['image_paths']
-num_paths = len(data_paths)
-print(f"There are {num_paths} paths")
+#%% set paths and initialize vars
+od_filename = r'gigafolder_od_results.pkl'
+bb_filename = r'gigafolder_bb_results.pkl'
+analysis_path = base_path + r'data/processed/'
+bb_results_filepath = analysis_path + bb_filename
+od_results_filepath = analysis_path + od_filename
 
-if os.path.isdir(save_path):
+# load results from gigatest_folder run
+od_data_all = joblib.load(od_results_filepath)
+num_images = len(od_data_all)
+print(f"There is data from {num_images} images")
+
+processed_images_path = analysis_path + 'processed_images/'
+if os.path.isdir(processed_images_path):
     pass
 else:
-    os.mkdir(save_path)
+    os.mkdir(processed_images_path)
 
 all_bboxes = []
 all_scores = []
 all_areas = []
 all_filepaths = []
 
-assert len(image_paths) == len(data_paths), print("different number of data and image")
-#%%
-for current_ind in range(num_paths):
-    print(f"{current_ind+1}/{num_paths}")
-    bb_filepath = data_paths[current_ind]
-    image_path = image_paths[current_ind]
+#%% pull bbs
+for current_ind, current_data in enumerate(od_data_all):
+    print(f"{current_ind+1}/{num_images}")
+    
+    image_path = current_data['fname']
     image_name = os.path.splitext(os.path.basename(image_path))[0]
-    image_save_path = save_path + image_name + r'_processed.png'
+    image_save_path = processed_images_path + image_name + r'_processed.png'
 
     print(f"\tWorking on {image_name}")
-    saved_data = joblib.load(bb_filepath)
-    bboxes = saved_data['bboxes']
-    scores = saved_data['scores']
-    rois = saved_data['rois']
+    bboxes = current_data['bboxes']
+    scores = current_data['scores']
+    rois = current_data['rois']
     num_rois = len(rois)
 
     #% Filter out empty boxes yielding *_initial estimates
@@ -135,7 +123,7 @@ for current_ind in range(num_paths):
                          line_width = 10,
                          text_thickness = 3)
 
-        save_fname = save_path + r'processed_images/' + image_name + '_bbs.png'
+        save_fname = processed_images_path + image_name + '_bbs.png'
         print(f"\tSaving to {save_fname}")
         cv2.imwrite(save_fname, image, [cv2.IMWRITE_PNG_COMPRESSION, 2])
 
@@ -145,11 +133,10 @@ for current_ind in range(num_paths):
 
 #%%
 if save:
-    full_od_data = {'all_bboxes': all_bboxes,
+    full_bb_data = {'all_bboxes': all_bboxes,
                  'all_scores': all_scores,
                  'all_areas': all_areas,
                  'all_filepaths': all_filepaths}
-    full_data_path = save_path + bb_filename
-    with open(full_data_path, 'wb') as fp:
-        joblib.dump(full_od_data, fp)
-        print(f"DONE!!!\nBox/score/area data/path saved to\n{full_data_path}")
+    with open(bb_results_filepath, 'wb') as fp:
+        joblib.dump(full_bb_data, fp)
+        print(f"DONE!!!\nBox/score/area data/path saved to\n{bb_results_filepath}")

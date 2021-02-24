@@ -4,7 +4,7 @@ Object detection pipeline when your images are too big to fit into your GPU. Thi
 ## Install and test the workflow
 When first getting this started, I recommend you go through all of the following steps and tests in order. It was created/tested only on Linux.
 
-### Create  virtual environment
+### Create the virtual environment
 Clone the repository and create a virtual environment (we'll call the virtual environment `gigadetector` but feel free to rename):
 
     cd ~
@@ -16,7 +16,7 @@ Clone the repository and create a virtual environment (we'll call the virtual en
 
 The above command will create the gigadetector virtual environment and activate it (and uninstall a superfluous version of opencv that one of the dependencies installs).  Note creating this virtual environment typically takes several minutes.
 
-### Test tensorflow installation
+### Test your tensorflow installation
 From the command line, go into python, import tensorflow, and make sure it sees your gpu:
 
     python
@@ -63,7 +63,7 @@ The frozen model and test images we use is too large to hold at github, so let's
 
 You should see some indications that you are downloading images and the frozen fish faster rcnn network (`fish_frcnn_graph.pb`).
 
-## Test it out
+## Test the object detector!
 If everything until now has run smoothly, congrats! That was the hard part. Now the fun bits begin we can start running the model on some data.
 
 ### Test on a small image
@@ -117,7 +117,7 @@ If you want to run these algorithms on your own data, then I would adapt the cod
 If you have any problems/suggestions, please open an issue or PR.
 
 ## To do
-- pics
+- Fix up descriptions and docs now that thigns are better.
 - let folks know
 
 

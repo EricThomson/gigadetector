@@ -21,10 +21,10 @@ import utils
 # includes bboxes, scores, areas, and image paths
 # note image paths might change if someone moves images but final node in path
 # shouldn't.
-processed_image_folder = base_path + r'data/individual_processed/'
+processed_image_folder = base_path + r'data/processed/'
 
 # Final bbox and confidence output of faster-rcnn + bbox trimming (bb_analysis_folder.py)
-results_file = r'gigafolder_od_results.pkl'  #1801-2648
+results_file = r'gigafolder_bb_results.pkl'  #1801-2648
 results_path = processed_image_folder + results_file
 
 with open(results_path, 'rb') as f:
@@ -42,17 +42,17 @@ print(image_paths)
 
 #%% optional test case
 """
-OPTIONAL
+OPTIONAL -- uncomment following to run
 This is to run on a single image just to make sure it works for one image
 """
-#print("\ngigaimage Tester\nClick escape to break out, n to move on to next image.\n")
-#image_ind = 605
-#bboxes = all_bboxes[image_ind]
-#scores = all_scores[image_ind]
-#image_path = image_paths[image_ind]
-#image = cv2.imread(image_path)
-#utils.draw_bboxes_scores(image.copy(), bboxes, scores, bb_color = (255, 255, 255),
-#                       name = 'ViewTester', line_width = 20, text_thickness = 3,
+# print("\ngigaviewer Tester\nClick escape to break out, n to move on to next image.\n")
+# image_ind = 1
+# bboxes = all_bboxes[image_ind]
+# scores = all_scores[image_ind]
+# image_path = image_paths[image_ind]
+# image = cv2.imread(image_path)
+# utils.draw_bboxes_scores(image.copy(), bboxes, scores, bb_color = (255, 255, 255),
+#                       name = 'ViewTester', line_width = 10, text_thickness = 3,
 #                       shape = (900, 1000), xy = (130, 50))
 
 

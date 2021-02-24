@@ -1,5 +1,7 @@
 """
-Process multiple large images that are in a folder. Saves results (includes boxes, confidence, image paths) to
+Process multiple large images that are in a folder.
+
+Saves results (includes boxes, confidence, image paths) to
 gigadetector/data/processed/gigafolder_od_results.pkl
 You can then process these results using bb_extract_folder.py.
 
@@ -42,25 +44,48 @@ session = tf.compat.v1.Session(config=config) #InteractiveSession(config=config)
 
 #%% set paths
 
-image_dir = base_path + r'data/'
-save_path = image_dir + r'processed/'
-image_paths = utils.extract_paths(image_dir, extension = 'png')  #bmp
+images_dir = base_path + r'data/'
+save_dir = images_dir + r'processed/'
+image_paths = utils.extract_paths(images_dir, extension = 'png')  #bmp
 num_images = len(image_paths)
-print(f"Will run Faster-RCNN on the {num_images} images in {image_dir}")
+print(f"Will run Faster-RCNN on the {num_images} images in {images_dir}")
 model_dir = base_path + r'models/'
 model_path = model_dir + r'fish_frcnn_graph.pb'
 labels_path = model_dir + r'fish_classes.pbtxt'
+od_filepath = save_dir +  r'gigafolder_od_results.pkl'
 
-data_paths_save = []  #list where data will be saved, one list for each image
-image_paths_save = []
+#initialize list where data will be saved
+od_data_all = []  
 
-if os.path.isdir(save_path):
+
+if os.path.isdir(save_dir):
     pass
 else:
-    os.mkdir(save_path)
+    os.mkdir(save_dir)
 
 num_classes = 1
 min_confidence = 0.9
+
+
+
+"""
+#%% set paths
+images_dir = base_path + r'data/'
+save_dir = images_dir + r'processed/'
+image_path = images_dir + r'giga1.png'
+model_dir = base_path + r'models/'
+
+model_path = model_dir + r'fish_frcnn_graph.pb'
+labels_path = model_dir + r'fish_classes.pbtxt'
+print(f"\nBeginning analysis of {image_path}\nClick Esc over movie to halt progress.")
+
+bb_filepath = save_dir + r'giga1_od_results.pkl' #previously used  datetime.now().strftime("%Y%m%d_%H%M%S"
+    
+if os.path.isdir(save_dir):
+    pass
+else:
+    os.mkdir(save_dir)
+"""
 
 #%%
 # initialize the model
@@ -258,27 +283,18 @@ with model.as_default():
             # Save data for just this image so we don't lose it.
             # But also append image paths and bb data to their lists for saving at the end
             if save_data:
-                bb_filename = f"gigafolder_temp{ind}.pkl"
-                bb_filepath = save_path + bb_filename
-                logging.info(f"Saving bb, score, roi, file path data to {bb_filepath}")
                 data_to_save = {'bboxes': boxes_image,
                                 'scores': scores_image,
                                 'rois': rois_image,
                                 'fname': image_path}
-                data_paths_save.append(bb_filepath)
-                image_paths_save.append(image_path)
-                with open(bb_filepath, 'wb') as fp:
-                    joblib.dump(data_to_save, fp)
-
-
+                od_data_all.append(data_to_save)
 print("Done performing inference on images in folder")
 
 #%% save *all* data -- bboxes and file paths that you've saved in lists
-fulldat_path = save_path +  r'gigafolder_od_results.pkl'
-print(f"Saving data and image paths to {fulldat_path}")
-full_data = {'data_paths': data_paths_save, 'image_paths': image_paths_save}
-with open(fulldat_path, 'wb') as fp:
-    joblib.dump(full_data, fp)
+if save_data:
+    print(f"Saving data and image paths to {od_filepath}")
+    with open(od_filepath, 'wb') as fp:
+        joblib.dump(od_data_all, fp)
 
 #Next, to process this go to bb_analysis_folder or bb_analysis_sliding.py
 
