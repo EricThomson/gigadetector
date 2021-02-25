@@ -1,5 +1,5 @@
 """
-Process multiple large images that are in a folder.
+Process multiple large images in data folder.
 
 Saves results (includes boxes, confidence, image paths) to
 gigadetector/data/processed/gigafolder_od_results.pkl

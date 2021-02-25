@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Process bounding boxes on multiple images analyzed using gigatest_folder.
-Saves results in data/gigafolder
+Process bounding boxes on multiple images analyzed using gigatest_folder.py.
+Saves resulting data in gigafolder_bb_reults.pkl and images in processed_images 
+folder.
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector

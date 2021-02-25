@@ -1,6 +1,5 @@
 """
 Test model on a single small image with two fish.
-Code partly adapted from od api and pyimagesearch.
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector

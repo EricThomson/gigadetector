@@ -1,13 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-Example pipleine for extracting unique bboxes from the set of all bboxes pulled
-in gigatest.py. Saves final estimate in  gigadetector/data/processed/processed_images/.
-
-Example of saving actual data is in bb_extract_folder.py.
-
-Note by 'std' bb coords: xs, ys, xe, ye
-     by 'img' bb coords: ys, ye, xs, xe
+Example pipeline for extracting unique bboxes from the set of all bboxes pulled
+in gigatest.py. Saves final estimate as giga1_boxes.png.
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector

@@ -66,8 +66,8 @@ You should see some indications that you are downloading images and the frozen f
 ## Test the object detector!
 If everything until now has run smoothly, congrats! That was the hard part. Now the fun bits begin we can start running the model on some data.
 
-### Test on a small image
-Test the model on a small test image that contains two fish: this image is large by most ML pipeline standards (1200 x 1200) but very small by gigadetector standards:
+### On a small image
+Test on a small test image that contains two fish: this image is large by most ML pipeline standards (1200 x 1200) but very small by gigadetector standards:
 
     conda activate gigadetector
     cd ~/gigadetector/gigadetector/
@@ -75,51 +75,53 @@ Test the model on a small test image that contains two fish: this image is large
 
 You should see an image pop up with two fish outlined by bounding boxes with the confidence measure (a *score*). Press ESC over the image to close the window.
 
-Note in the rest of the examples the first two lines from above (activating the environment and cd'ing into `~/gigadetector/gigadetector/`) will be assumed.
+Note in the rest of the examples the first two lines from above -- activating the environment and cd'ing into `~/gigadetector/gigadetector/` -- will be assumed.
 
-### Test on a single gigaimage
-Here we will have a very "verbose" example that shows a single large image with 93 zebrafish that shows the moving window walking through it, where the faster-rcnn is applied, and that same window is shown on the side with the output of the faster-rcnn (whether it found fish or not):
+### On a single gigaimage
+Here we will have a visual example of a single large image with 93 zebrafish. You will see a moving window quickly striding through it, where the faster-rcnn is applied to each sub-image:
 
     python gigatest.py
 
-You will see the algorithm run through an entire single gigaimage with a sliding window (it may run relatively quickly). This also saves the results in `~/gigadetector/data/processed/giga1_od_results.pkl` (including bounding boxes, scores, ROIs of the original image, and the file path to the original image).
+This saves the results in `~/gigadetector/data/processed/giga1_od_results.pkl` (including bounding boxes, scores, ROIs of the original image, and the file path to the original image).
 
 Because this sliding window draws *too many* bounding boxes (often multiple per fish), we need to try to narrow them down to one per fish using tricks such as non-max suppression. This is done in the following:
 
     python bb_extract.py
 
-This generates a final set of bounding boxes and writes them into a final image that is saved as `~/gigadetector/data/processed/processed_images/giga1_bboxes.png` that you can inspect for quality. This script also has many intermediate steps that are not rendered, but the code is there to do so, so it is easy to inspect to how any given image goes from the full set of initial bounding boxes to the final estimate.
+This generates a final set of bounding boxes and writes them into a final image that is saved as `~/gigadetector/data/processed/processed_images/giga1_bboxes.png` that you can inspect for quality.
+
+`bb_extract.py` has many intermediate steps that are not rendered, but the code is there to do so if you wish -- it is easy to inspect how any given image goes from the full set of initial bounding boxes to the final estimate.
 
 
-### Run through a folder of images
-This is where we get to something that is more like what you will actually do with your real data.
+### On a folder of images
+This is where we get to something that is more like what you will actually do with your data:
 
     python gigatest_folder.py
 
-This runs the faster-rcnn on each image in `gigadetector/data/` (there are  three we downloaded there by default). It takes 3-5 minutes per image, as they are very large.
+This runs the faster-rcnn on each image in `gigadetector/data/` (there are three we downloaded by default). It takes 3-5 minutes per image, as they are very large.
 
-The results are saved in `data/processed/gigafolder_od_results.pkl`, and you can narrow down the bounding boxes with:
+The results are saved in `data/processed/gigafolder_od_results.pkl`. Once finished, you can narrow down the bounding boxes with:
 
     python bb_extract_folder.py
 
-This module saves the results in `gigafolder_bb_results.pkl` and the images with bboxes overlaid are in `/gigadetector/data/processed/processed_images`.
+This module saves the results in `gigafolder_bb_results.pkl` and the images with bboxes overlaid are in `/gigadetector/data/processed/processed_images/`.
 
-### Viewing images with boxes on them
-We provide an interface that lets you reconstruct the images with bounding boxes overlaid, given just the original images and the data generated from the bounding box extraction step. It's a very lightweight OpenCV interface where you click `n` to move to the next image in the set and `Esc` to close the viewer:
+## Reviewing results
+Given the output of the faster-rcnn (i.e., bounding boxes), and a path to the images, it is easy to draw the results of the algorithm. We provide a lightweight OpenCV interface that renders each image in a set with bounding boxes overlaid, given just the original images and the data generated from the bounding box extraction step.
+
+Once you have run the previous steps:
 
     python gigaviewer.py
 
-This is helpful to just make sure the bounding boxes match up to the images, and should be enough to get you started with how to integrate OpenCV with gigadetector.
+
+Then just click `n` to move to the next image in the set and `Esc` to close the viewer.
+
+This viewer is helpful to just make sure the bounding boxes match up to the images, and should be enough to get started with how to integrate OpenCV with gigadetector.
 
 ## Applying to new images
-If you want to run these algorithms on your own data, then I would adapt the code from the test examples. Start out with a single small (1200x1200) image and make sure you can get it to work. Then make sure you can get it to work on a single large image of your own, and then a folder of images. Finally, build up your own project as you see fit with your own directory structure. Good luck!
+If you want to get started running these algorithms on your own data, then I would adapt the code from the test examples. Start out with a single small (1200x1200) image and make sure you can get it to work. Then make sure you can get it to work on a single large image of your own, and then a folder of images. Finally, build up your own project as you see fit with your own directory structure. Good luck!
 
 If you have any problems/suggestions, please open an issue or PR.
-
-## To do
-- Fix up descriptions and docs now that thigns are better.
-- let folks know
-
 
 ### Acknowledgments
 Code developed for the multi-camera array microscope (MCAM) project in the Computational Optics Lab (http://horstmeyer.pratt.duke.edu/) and the Naumann Lab (https://www.naumannlab.org/) at Duke University.

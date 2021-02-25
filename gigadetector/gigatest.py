@@ -1,5 +1,8 @@
 """
-Test frozen model on single large image using sliding window. Saves results (bboxes, scores, name of filepath) in gigadetector/data/processed that can later be processed using bb_extract.py. 
+Visual example showing how to test frozen model on 
+single large image using sliding window. Saves results 
+(bboxes, scores, name of filepath) in giga1_od_results.pkl 
+that can later be fully processed using bb_extract.py. 
 
 Part of gigadetector repo:
 https://github.com/EricThomson/gigadetector
