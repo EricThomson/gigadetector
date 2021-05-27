@@ -1,4 +1,4 @@
-# Gigadetector
+# gigadetector
 An object detection pipeline when your images are too big to fit into your GPU. This readme walks you through installation and running simple examples using a frozen model for fish detection. The best way to use it is to adapt the examples for use with your own data.
 
 You don't have to use the fish model -- you should be able to download your own frozen model and use this pipeline for any objects.
