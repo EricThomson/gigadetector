@@ -122,4 +122,5 @@ If you have any problems/suggestions, please open an issue or PR.
 Code developed for the multi-camera array microscope (MCAM) project in the Computational Optics Lab (http://horstmeyer.pratt.duke.edu/) and the Naumann Lab (https://www.naumannlab.org/) at Duke University. 
 
 ## Read the paper!
-This work has been published in (eLife)[https://elifesciences.org/articles/74988].
+This work has been published in [eLife](https://elifesciences.org/articles/74988).
+
